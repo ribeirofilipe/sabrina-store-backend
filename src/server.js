@@ -1,5 +1,9 @@
 const app = require('./app');
 
+app.get('/', (req, res) => {
+  return res.json({ message: 'ONLINE'});
+})
+
 function timeout() {
   console.log('checked');
 
