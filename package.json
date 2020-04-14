@@ -2,9 +2,9 @@
   "name": "omnistack-11-be-the-hero",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node",
+    "start": "node src/server.js",
     "test": "cross-env NODE_ENV=test jest"
   },
   "repository": {
