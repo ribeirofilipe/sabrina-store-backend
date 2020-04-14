@@ -1,7 +1,7 @@
 const app = require('./app');
 
-app.get('/online', (req, res) => {
-  return res.json({ message: 'ONLINE'});
-})
+import routes from './routes';
+
+app.use(routes);
 
 app.listen(3333);
