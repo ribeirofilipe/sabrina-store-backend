@@ -28,8 +28,6 @@
     "nodemon": "^2.0.2"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0",
-    "jest": "^25.2.3",
-    "supertest": "^4.0.2"
+    "dotenv": "^8.2.0"
   }
 }
