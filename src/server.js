@@ -1,6 +1,5 @@
 const app = require('./app');
-
-import routes from './routes';
+const routes = require('./routes');
 
 app.use(routes);
 
