@@ -1,13 +1,30 @@
+require('dotenv/config');
 const express = require('express');
-const routes = require('./routes');
+const path = require('path');
 const cors = require('cors');
-const { errors } = require('celebrate');
+const routes = require('./routes');
+require('./database');
 
-const app = express();
+class App {
+  constructor() {
+    this.server = express();
 
-app.use(cors());
-app.use(express.json());
-app.use(routes);
-app.use(errors());
+    this.middlewares();
+    this.routes();
+  }
 
-module.exports = app;
+  middlewares() {
+    this.server.use(cors());
+    this.server.use(express.json());
+    this.server.use(
+      '/files',
+      express.static(path.resolve(__dirname, '..', 'temp', 'uploads'))
+    );
+  }
+
+  routes() {
+    this.server.use(routes);
+  }
+}
+
+module.exports = new App().server;
