@@ -10,6 +10,10 @@ const upload = multer(multerConfig);
 
 const Pic = require('./schemas/Pic');
 
+routes.post('/stay-online', (req, res) => {
+  return res.json({ message: 'Success!'});
+})
+
 routes.post('/pics/:description/price/:price', upload.single('pic'), async (request, response) => {
   const { filename: url } = request.file;
   const { description, price } = request.params;
