@@ -43,4 +43,15 @@ routes.post('/pics', async (request, response) => {
   });
 })
 
+routes.delete('/pics/:id', async (request, response) => {
+  const { id } = request.params;
+
+  await Pic.deleteOne({
+    _id: id
+  });
+  
+  return response.status(204).send();
+})
+
+
 module.exports = routes;
