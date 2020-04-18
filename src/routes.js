@@ -31,7 +31,7 @@ routes.post(
 routes.post('/pics', async (request, response) => {
   const { page } = request.body; 
 
-  const total = await Pic.count();
+  const total = await Pic.countDocuments();
 
   const pics = await Pic.find()
   .skip((page -1) * 9)
@@ -49,7 +49,7 @@ routes.delete('/pics/:id', async (request, response) => {
   await Pic.deleteOne({
     _id: id
   });
-  
+
   return response.status(204).send();
 })
 
