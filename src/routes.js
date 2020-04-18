@@ -10,27 +10,37 @@ const upload = multer(multerConfig);
 
 const Pic = require('./schemas/Pic');
 
-routes.post('/stay-online', (req, res) => {
-  return res.json({ message: 'Success!'});
-})
+routes.post(
+  '/pics/:description/price/:price', 
+  upload.single('pic'), 
+  async (request, response) => {
+    console.log(request.file);
+    console.log(request.params);
+    const { filename: url } = request.file;
+    const { description, price } = request.params;
 
-routes.post('/pics/:description/price/:price', upload.single('pic'), async (request, response) => {
-  const { filename: url } = request.file;
-  const { description, price } = request.params;
+    const pic = await Pic.create({
+      description,
+      price: parseFloat(price),
+      url: `${process.env.APP_URL}/pics/${url}`,  
+    });
 
-  const pic = await Pic.create({
-    description,
-    price: parseFloat(price),
-    url: `${process.env.APP_URL}/pics/${url}`,  
-  });
-
-  return response.json(pic);
+    return response.json(pic);
 });
 
-routes.get('/pics', async (request, response) => {
-  const pics = await Pic.find();
+routes.post('/pics', async (request, response) => {
+  const { page } = request.body; 
 
-  return response.json(pics);
+  const total = await Pic.count();
+
+  const pics = await Pic.find()
+  .skip((page -1) * 9)
+  .limit(9);
+
+  return response.json({
+    pics,
+    total
+  });
 })
 
 module.exports = routes;
