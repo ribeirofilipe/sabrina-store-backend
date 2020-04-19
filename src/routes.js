@@ -14,8 +14,6 @@ routes.post(
   '/pics/:description/price/:price', 
   upload.single('pic'), 
   async (request, response) => {
-    console.log(request.file);
-    console.log(request.params);
     const { filename: url } = request.file;
     const { description, price } = request.params;
 
