@@ -51,5 +51,4 @@ routes.delete('/pics/:id', async (request, response) => {
   return response.status(204).send();
 })
 
-
 module.exports = routes;
