@@ -1,4 +1,6 @@
 require('dotenv').config();
+const fs = require('fs');
+const AWS = require('aws-sdk');
 
 const express = require('express');
 const routes = express.Router();
@@ -14,17 +16,36 @@ routes.post(
   '/pics/:description/price/:price', 
   upload.single('pic'), 
   async (request, response) => {
-    const { filename: url } = request.file;
+    const { filename: path } = request.file;
     const { description, price } = request.params;
 
-    const pic = await Pic.create({
-      description,
-      price: parseFloat(price),
-      url: `${process.env.APP_URL}/pics/${url}`,  
+    const s3 = new AWS.S3({
+      accessKeyId: process.env.KEY,
+      secretAccessKey: process.env.SECRET_KEY,
     });
 
-    return response.json(pic);
-});
+    const fileContent = await fs.readFileSync(`${multerConfig.directory}/${path}`);
+
+    const params = {
+        Bucket: `${process.env.BUCKET_NAME}/pics`,
+        Key: `${description}-${new Date()}.jpg`, 
+        Body: fileContent
+    };
+
+    s3.upload(params, async (err, data) => {
+        if (err) {
+            throw err;
+        }
+       
+        const pic = await Pic.create({
+                description,
+                price: parseFloat(price),
+                url: `${data.Location}`,  
+              });
+          
+        return response.json(pic);
+    });
+})
 
 routes.post('/pics', async (request, response) => {
   const { page } = request.body; 
