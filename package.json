@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/ribeirofilipe/omnistack-11-be-the-hero#readme",
   "dependencies": {
-    "aws-sdk": "^2.658.0",
+    "aws-sdk": "^2.814.0",
     "celebrate": "^12.0.1",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
